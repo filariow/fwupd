@@ -44,6 +44,12 @@ The retimer index is oriented around the physical connection within
 the machine.  It is important as multiple controllers may otherwise
 identify identically.
 
+Update Behavior
+---------------
+
+The firmware is written to the device at runtime. Once complete the controller
+may reboot which may cause all connected USB devices to be reenumerated.
+
 Vendor ID Security
 ------------------
 

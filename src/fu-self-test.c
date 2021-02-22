@@ -962,16 +962,16 @@ fu_engine_device_priority_func (gconstpointer user_data)
 
 	/* add low prio then high then low */
 	fu_device_set_id (device1, "id1");
+	fu_device_add_internal_flag (device1, FU_DEVICE_INTERNAL_FLAG_COLDPLUG_MATCH_GUID);
 	fu_device_add_vendor_id (device1, "USB:FFFF");
-	fu_device_set_protocol (device1, "com.acme");
 	fu_device_set_priority (device1, 0);
 	fu_device_set_plugin (device1, "udev");
 	fu_device_add_instance_id (device1, "GUID1");
 	fu_device_convert_instance_ids (device1);
 	fu_engine_add_device (engine, device1);
 	fu_device_set_id (device2, "id2");
+	fu_device_add_internal_flag (device2, FU_DEVICE_INTERNAL_FLAG_COLDPLUG_MATCH_GUID);
 	fu_device_add_vendor_id (device2, "USB:FFFF");
-	fu_device_set_protocol (device2, "com.acme");
 	fu_device_set_priority (device2, 1);
 	fu_device_set_plugin (device2, "redfish");
 	fu_device_add_instance_id (device2, "GUID1");
@@ -979,8 +979,8 @@ fu_engine_device_priority_func (gconstpointer user_data)
 	fu_device_convert_instance_ids (device2);
 	fu_engine_add_device (engine, device2);
 	fu_device_set_id (device3, "id3");
+	fu_device_add_internal_flag (device3, FU_DEVICE_INTERNAL_FLAG_COLDPLUG_MATCH_GUID);
 	fu_device_add_vendor_id (device3, "USB:FFFF");
-	fu_device_set_protocol (device3, "com.acme");
 	fu_device_set_priority (device3, 0);
 	fu_device_set_plugin (device3, "uefi_capsule");
 	fu_device_add_instance_id (device3, "GUID1");
@@ -1007,6 +1007,7 @@ fu_engine_device_priority_func (gconstpointer user_data)
 
 	/* add extra devices that should sort */
 	fu_device_set_id (device4, "id4");
+	fu_device_add_internal_flag (device4, FU_DEVICE_INTERNAL_FLAG_COLDPLUG_MATCH_GUID);
 	fu_device_add_vendor_id (device4, "USB:FFFF");
 	fu_device_set_protocol (device4, "com.acme");
 	fu_device_set_priority (device4, 0);
@@ -1016,6 +1017,7 @@ fu_engine_device_priority_func (gconstpointer user_data)
 	fu_device_convert_instance_ids (device4);
 	fu_engine_add_device (engine, device4);
 	fu_device_set_id (device5, "id5");
+	fu_device_add_internal_flag (device5, FU_DEVICE_INTERNAL_FLAG_COLDPLUG_MATCH_GUID);
 	fu_device_add_vendor_id (device5, "USB:FFFF");
 	fu_device_set_protocol (device5, "com.acme");
 	fu_device_set_priority (device5, 0);
@@ -2048,11 +2050,13 @@ fu_device_list_replug_auto_func (gconstpointer user_data)
 
 	/* fake child devices */
 	fu_device_set_id (device1, "device1");
+	fu_device_add_internal_flag (device1, FU_DEVICE_INTERNAL_FLAG_REPLUG_MATCH_GUID);
 	fu_device_set_physical_id (device1, "ID");
 	fu_device_set_plugin (device1, "self-test");
 	fu_device_set_remove_delay (device1, FU_DEVICE_REMOVE_DELAY_RE_ENUMERATE);
 	fu_device_add_child (parent, device1);
 	fu_device_set_id (device2, "device2");
+	fu_device_add_internal_flag (device2, FU_DEVICE_INTERNAL_FLAG_REPLUG_MATCH_GUID);
 	fu_device_set_physical_id (device2, "ID"); /* matches */
 	fu_device_set_plugin (device2, "self-test");
 	fu_device_set_remove_delay (device2, FU_DEVICE_REMOVE_DELAY_RE_ENUMERATE);
@@ -2105,12 +2109,14 @@ fu_device_list_replug_user_func (gconstpointer user_data)
 
 	/* fake devices */
 	fu_device_set_id (device1, "device1");
+	fu_device_add_internal_flag (device1, FU_DEVICE_INTERNAL_FLAG_REPLUG_MATCH_GUID);
 	fu_device_add_instance_id (device1, "foo");
 	fu_device_add_instance_id (device1, "bar");
 	fu_device_set_plugin (device1, "self-test");
 	fu_device_set_remove_delay (device1, FU_DEVICE_REMOVE_DELAY_USER_REPLUG);
 	fu_device_convert_instance_ids (device1);
 	fu_device_set_id (device2, "device2");
+	fu_device_add_internal_flag (device2, FU_DEVICE_INTERNAL_FLAG_REPLUG_MATCH_GUID);
 	fu_device_add_instance_id (device2, "baz");
 	fu_device_add_instance_id (device2, "bar"); /* matches */
 	fu_device_set_plugin (device2, "self-test");
@@ -2173,6 +2179,7 @@ fu_device_list_compatible_func (gconstpointer user_data)
 	fu_device_add_vendor_id (device1, "USB:0x20A0");
 	fu_device_set_version_format (device1, FWUPD_VERSION_FORMAT_TRIPLET);
 	fu_device_set_version (device1, "1.2.3");
+	fu_device_add_internal_flag (device1, FU_DEVICE_INTERNAL_FLAG_REPLUG_MATCH_GUID);
 	fu_device_add_instance_id (device1, "foobar");
 	fu_device_add_instance_id (device1, "bootloader");
 	fu_device_set_remove_delay (device1, 100);
@@ -2186,6 +2193,7 @@ fu_device_list_compatible_func (gconstpointer user_data)
 	fu_device_set_id (device2, "device2");
 	fu_device_set_plugin (device2, "plugin-for-bootloader");
 	fu_device_add_instance_id (device2, "bootloader");
+	fu_device_add_internal_flag (device2, FU_DEVICE_INTERNAL_FLAG_REPLUG_MATCH_GUID);
 	fu_device_convert_instance_ids (device2);
 
 	/* verify only a changed event was generated */
