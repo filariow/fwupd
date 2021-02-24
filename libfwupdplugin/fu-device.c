@@ -56,7 +56,6 @@ typedef struct {
 	gboolean			 done_probe;
 	gboolean			 done_setup;
 	gboolean			 device_id_valid;
-	gboolean			 has_counterpart;
 	guint64				 size_min;
 	guint64				 size_max;
 	gint				 open_refcount;	/* atomic */
@@ -1521,9 +1520,6 @@ fu_device_add_counterpart_guid (FuDevice *self, const gchar *guid)
 	g_return_if_fail (FU_IS_DEVICE (self));
 	g_return_if_fail (guid != NULL);
 
-	/* used when checking the _REPLUG_MATCH_GUID flag */
-	priv->has_counterpart = TRUE;
-
 	/* make valid */
 	if (!fwupd_guid_is_valid (guid)) {
 		g_autofree gchar *tmp = fwupd_guid_hash_string (guid);
@@ -2915,16 +2911,6 @@ fu_device_detach (FuDevice *self, GError **error)
 	/* no plugin-specific method */
 	if (klass->detach == NULL)
 		return TRUE;
-
-	/* fixup old plugins */
-	if (priv->has_counterpart &&
-	    !fu_device_has_internal_flag (self, FU_DEVICE_INTERNAL_FLAG_REPLUG_MATCH_GUID)) {
-		g_warning ("device %s [%s] did not set FU_DEVICE_INTERNAL_FLAG_REPLUG_MATCH_GUID "
-			   "so setting it for backwards compat -- this will stop soon!",
-			   fu_device_get_name (self),
-			   fu_device_get_id (self));
-		fu_device_add_internal_flag (self, FU_DEVICE_INTERNAL_FLAG_REPLUG_MATCH_GUID);
-	}
 
 	/* call vfunc */
 	return klass->detach (self, error);
