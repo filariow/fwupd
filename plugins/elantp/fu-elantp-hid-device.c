@@ -568,6 +568,5 @@ fu_elantp_hid_device_class_init (FuElantpHidDeviceClass *klass)
 	klass_device->setup = fu_elantp_hid_device_setup;
 	klass_device->reload = fu_elantp_hid_device_setup;
 	klass_device->write_firmware = fu_elantp_hid_device_write_firmware;
-	klass_device->prepare_firmware = fu_elantp_hid_device_prepare_firmware;
 	klass_device->probe = fu_elantp_hid_device_probe;
 }
