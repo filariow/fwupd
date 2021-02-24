@@ -178,8 +178,6 @@ fu_device_internal_flag_to_string (FuDeviceInternalFlags flag)
 		return "retry-open";
 	if (flag == FU_DEVICE_INTERNAL_FLAG_REPLUG_MATCH_GUID)
 		return "replug-match-guid";
-	if (flag == FU_DEVICE_INTERNAL_FLAG_COLDPLUG_MATCH_GUID)
-		return "coldplug-match-guid";
 	return NULL;
 }
 
@@ -1516,7 +1514,6 @@ fu_device_add_guid (FuDevice *self, const gchar *guid)
 void
 fu_device_add_counterpart_guid (FuDevice *self, const gchar *guid)
 {
-	FuDevicePrivate *priv = GET_PRIVATE (self);
 	g_return_if_fail (FU_IS_DEVICE (self));
 	g_return_if_fail (guid != NULL);
 
@@ -2902,7 +2899,6 @@ fu_device_dump_firmware (FuDevice *self, GError **error)
 gboolean
 fu_device_detach (FuDevice *self, GError **error)
 {
-	FuDevicePrivate *priv = GET_PRIVATE (self);
 	FuDeviceClass *klass = FU_DEVICE_GET_CLASS (self);
 
 	g_return_val_if_fail (FU_IS_DEVICE (self), FALSE);
